@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnerEquiJions</title>
+</head>
+<body>
+    <center>
+        <h1>Inner Equi Jions</h1>
+        <table border="3px">
+            <tr>
+                <th>empno</th>
+                <th>ename</th>
+                <th>job</th>
+                <th>mgr</th>
+                <th>hiredate</th>
+                <th>sal</th>
+                <th>comm</th>
+                <th>deptno</th>
+                
+            </tr>
+            {% for EDO in EMJD %}
+                <tr>
+                    <td>{{EDO.Emp_no}}</td>
+                    <td>{{EDO.ENAME}}</td>
+                    <td>{{EDO.JOB}}</td>
+                    <td>{{EDO.MGR}}</td>
+                    <td>{{EDO.HIREDATE}}</td>
+                    <td>{{EDO.SAL}}</td>
+                    <td>{{EDO.COMM}}</td>
+                    <td>{{EDO.DEPTNO}}</td>
+                    
+                </tr>
+            {% endfor %}
+        </table>
+    </center>
+</body>
+</html>

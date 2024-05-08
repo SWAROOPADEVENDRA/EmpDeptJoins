@@ -97,3 +97,64 @@ def insert_sal(request):
 
     return HttpResponse('create successfully')
 
+
+def selfjoin(request):
+    EMJD=Emp.objects.select_related('MGR').all()
+
+    #emp whose name starts with 'a'
+    EMJD=Emp.objects.select_related('MGR').filter(ENAME__startswith='a')
+
+    #emp whose name starts with 'e'
+    EMJD=Emp.objects.select_related('MGR').filter(ENAME__contains='e')
+
+    #emp whose comm is null
+    EMJD=Emp.objects.select_related('MGR').filter(COMM__isnull=True)
+
+    #emp whose hiredate year is greaterthan 1986
+    EMJD=Emp.objects.select_related('MGR').filter(HIREDATE__year=1986)
+
+    #emp whose hiredate year is greater than or equal to 1986
+    EMJD=Emp.objects.select_related('MGR').filter(HIREDATE__year__gt=1986)
+
+    #emp whose hiredate year is greater than or equal to 1986 and ename contains 'e'
+    EMJD=Emp.objects.select_related('MGR').filter(Q(HIREDATE__year__gte=1986),Q(ENAME__contains='e'))
+
+    #emp whose hiredate year is greater than or equal to 1986 or ename contains 'e'
+    EMJD=Emp.objects.select_related('MGR').filter(Q(HIREDATE__year__gte=1986) | Q(ENAME__contains='e'))
+
+    #emp whose manage name ends with 'e'
+    EMJD=Emp.objects.select_related('MGR').filter(MGR__ENAME__endswith='e')
+
+    #emp whose salay is greater than 1000 and job is manage
+    EMJD=Emp.objects.select_related('MGR').filter(Q(SAL__gt=1000) & Q(JOB='MANAGER'))
+
+    #emp whose salay is greater than or equal to  1000 and job is manage
+
+    EMJD=Emp.objects.select_related('MGR').filter(Q(SAL__gte=1000) & Q(JOB='MANAGER'))
+
+    #emp whose salay is less than 1000 or job is manage
+
+    EMJD=Emp.objects.select_related('MGR').filter(Q(SAL__lt=1000) | Q(JOB='MANAGER'))
+
+    #emp whose salay is less than or equal to 1000 or job is salesman
+
+    EMJD=Emp.objects.select_related('MGR').filter(Q(SAL__lte=1000) | Q(JOB='SALSMAN'))
+
+    #emp whose salay is less than 1000 or job is manage and deptno is 20
+    EMJD=Emp.objects.select_related('MGR').filter(Q(SAL__lt=1000) | Q(JOB='MANAGER') &Q(DEPTNO=20))
+    
+    #emp whose comm is null  or job is manage
+    EMJD=Emp.objects.select_related('MGR').filter(Q(COMM__isnull=False) | Q(JOB='MANAGER'))
+
+    #emp whose comm is not null
+    EMJD=Emp.objects.select_related('MGR').filter(Q(COMM__isnull=False) )
+
+    #emp whose comm is not null and job is 'salesman'
+    EMJD=Emp.objects.select_related('MGR').filter(Q(COMM__isnull=False) & Q(JOB='SALESMAN'))
+    #emp whose mgr is '7839' or job is 'manager' and ename endswith 's' and sal is range b/w '1000' to '4000' or comm is greater than '0'
+    EMDO=Emp.objects.select_related('MGR').filter(Q(MGR=7839) | Q(JOB='MANAGER') & Q(ENAME__endswith='s') & Q(SAL__range=(1000,400)) | Q(COMM__gt=0))
+
+
+    d={'EMJD':EMJD}
+    return render(request,'selfjoin.html',d)
+
